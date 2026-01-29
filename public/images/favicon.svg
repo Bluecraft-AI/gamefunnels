@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <!-- Main controller body (white) -->
-  <path fill="#ffffff" d="M6 12c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2h-5l-2 2h-6l-2-2H6z"/>
-  <!-- D-pad (transparent with white outline) -->
-  <path fill="none" stroke="#ffffff" stroke-width="1" d="M9 14h2v2h2v2h-2v2H9v-2H7v-2h2v-2z"/>
-  <!-- Action buttons (transparent with white outline) -->
-  <circle fill="none" stroke="#ffffff" cx="21" cy="16" r="1.5"/>
-  <circle fill="none" stroke="#ffffff" cx="24" cy="16" r="1.5"/>
-  <circle fill="none" stroke="#ffffff" cx="22.5" cy="14" r="1.5"/>
-  <circle fill="none" stroke="#ffffff" cx="22.5" cy="18" r="1.5"/>
-  <!-- Controller outline -->
-  <path fill="none" stroke="#ffffff" stroke-width="1.5" d="M6 12c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2h-5l-2 2h-6l-2-2H6z"/>
+  <g transform="rotate(180 16 16)">
+    <!-- Main controller body (white) -->
+    <path fill="#ffffff" d="M6 12c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2h-5l-2 2h-6l-2-2H6z"/>
+    <!-- D-pad (transparent with white outline) - appears on right side visually after 180° rotation -->
+    <path fill="none" stroke="#ffffff" stroke-width="1" d="M9 14h2v2h2v2h-2v2H9v-2H7v-2h2v-2z"/>
+    <!-- Action buttons (transparent with white outline) - appear on left side visually after 180° rotation -->
+    <circle fill="none" stroke="#ffffff" cx="21" cy="16" r="1.5"/>
+    <circle fill="none" stroke="#ffffff" cx="24" cy="16" r="1.5"/>
+    <circle fill="none" stroke="#ffffff" cx="22.5" cy="14" r="1.5"/>
+    <circle fill="none" stroke="#ffffff" cx="22.5" cy="18" r="1.5"/>
+    <!-- Controller outline -->
+    <path fill="none" stroke="#ffffff" stroke-width="1.5" d="M6 12c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2h-5l-2 2h-6l-2-2H6z"/>
+    <!-- Right side (visually) - 4 control buttons (cx=9.5, appears on right after 180° rotation) -->
+    <circle fill="#000000" stroke="#ffffff" stroke-width="0.5" cx="9.5" cy="14" r="1.2"/>
+    <circle fill="#000000" stroke="#ffffff" stroke-width="0.5" cx="9.5" cy="18" r="1.2"/>
+    <circle fill="#000000" stroke="#ffffff" stroke-width="0.5" cx="7.5" cy="16" r="1.2"/>
+    <circle fill="#000000" stroke="#ffffff" stroke-width="0.5" cx="11.5" cy="16" r="1.2"/>
+    <!-- Left side (visually) - analog stick (cx=22.5, appears on left after 180° rotation) -->
+    <circle fill="#000000" stroke="#ffffff" stroke-width="0.5" cx="22.5" cy="16" r="2"/>
+  </g>
 </svg> 
