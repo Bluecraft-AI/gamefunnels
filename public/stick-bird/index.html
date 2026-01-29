@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stick Bird</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div id="score">0</div>
+            <div id="startScreen">
+                <h1>Stick Bird</h1>
+                <p>Press SPACE or Click to Start</p>
+            </div>
+            <div id="gameOverScreen" class="hidden">
+                <h2>Game Over!</h2>
+                <p>Score: <span id="finalScore">0</span></p>
+                <p>Press R to Restart</p>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="game.js"></script>
+</body>
+</html>

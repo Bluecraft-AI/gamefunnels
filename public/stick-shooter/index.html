@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stick Fighter - Windows XP Edition</title>
-    <!-- Load p5.js from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <!-- Load Supabase JS library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- p5.sound.js has been removed to disable all sound -->
+    <title>Stick Shooter - Windows XP Edition</title>
     <style>
         body {
             margin: 0;
@@ -24,10 +19,21 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
     </style>
-    <!-- Load your sketch code -->
-    <script src="sketch.js"></script>
 </head>
 <body>
     <div id="sketch-container"></div>
+    <!-- Load sketch.js FIRST - must complete before p5.js loads -->
+    <script>
+      // Load sketch.js synchronously
+      const sketchScript = document.createElement('script');
+      sketchScript.src = 'sketch.js';
+      sketchScript.onload = function() {
+        // Sketch loaded, now load p5.js
+        const p5Script = document.createElement('script');
+        p5Script.src = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js';
+        document.body.appendChild(p5Script);
+      };
+      document.body.appendChild(sketchScript);
+    </script>
 </body>
 </html>

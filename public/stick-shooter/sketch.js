@@ -33,10 +33,9 @@ const TARGET_SPAWN_INTERVAL = 120; // Frames between target spawns
 // Score animation variables
 let scoreAnimations = [];
 
-// Supabase configuration - Replace with your actual Supabase URL and anon key
-const supabaseUrl = 'https://tpfdmjwrsuygqjcrfczl.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwZmRtandyc3V5Z3FqY3JmY3psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5Njc2MzcsImV4cCI6MjA1NjU0MzYzN30.mLa1wtw1qi8gQN_lkrj-rZ4WST1fYf1i6SNOwAA273o';
-let supabase;
+// Supabase configuration - Removed for security (not in use)
+// If you need Supabase, use environment variables and never commit keys to the repo
+let supabase = null;
 
 // Email collection variables
 let playerEmail = '';
@@ -66,6 +65,15 @@ function setup() {
   let canvas = createCanvas(800, 600);
   canvas.parent('sketch-container');
   
+  // Make canvas focusable and focus it so keyboard input works
+  canvas.elt.setAttribute('tabindex', '0');
+  canvas.elt.focus();
+  
+  // Focus canvas when clicked
+  canvas.mousePressed(function() {
+    canvas.elt.focus();
+  });
+  
   // Set up ground level
   groundY = height - 50;
   
@@ -82,13 +90,9 @@ function setup() {
   // Initialize key states for input handling
   updateKeyStates();
   
-  // Initialize Supabase client
-  try {
-    supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-    console.log('Supabase client initialized');
-  } catch (error) {
-    console.error('Error initializing Supabase client:', error);
-  }
+  // Initialize Supabase client (optional) - Removed for security
+  // Supabase is not in use, so client initialization is disabled
+  supabase = null;
   
   // Set the default font for the entire sketch
   textFont('monospace');
@@ -885,23 +889,30 @@ async function submitMatchResults(winner) {
     console.log("Sending match data to Supabase:", matchData);
     
     // Use Supabase client directly to insert data
-    const { data, error } = await supabase
-      .from('match_results')
-      .insert([{
-        email: matchData.email,
-        game_name: matchData.game_name,
-        winner: matchData.winner,
-        match_duration: matchData.match_duration,
-        p1_stats: matchData.p1_stats
-      }]);
-    
-    if (error) {
-      console.error("Failed to submit match results to Supabase:", error);
-      submitError = true;
-      errorMessage = "Failed to submit: " + error.message;
-      emailSubmitted = false; // Allow retry
+    // Submit to Supabase (if available)
+    if (supabase) {
+      const { data, error } = await supabase
+        .from('match_results')
+        .insert([{
+          email: matchData.email,
+          game_name: matchData.game_name,
+          winner: matchData.winner,
+          match_duration: matchData.match_duration,
+          p1_stats: matchData.p1_stats
+        }]);
+      
+      if (error) {
+        console.error("Failed to submit match results to Supabase:", error);
+        submitError = true;
+        errorMessage = "Failed to submit: " + error.message;
+        emailSubmitted = false; // Allow retry
+      } else {
+        console.log("Match results submitted successfully to Supabase!", data);
+        submitSuccess = true;
+      }
     } else {
-      console.log("Match results submitted successfully to Supabase!", data);
+      // Supabase not available - just mark as submitted
+      console.log("Supabase not available - skipping submission");
       submitSuccess = true;
     }
   } catch (error) {
@@ -1530,6 +1541,12 @@ function setTextFont() {
 // Start a new game
 function startGame() {
   console.log("Starting game...");
+  
+  // Focus the canvas so keyboard input works
+  let canvas = document.querySelector('canvas');
+  if (canvas) {
+    canvas.focus();
+  }
   
   // Reset game state
   gameState = 'playing';

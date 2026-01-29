@@ -3,10 +3,9 @@ let p1, p2, groundY, gameState;
 let matchStartTime; // Track when the match started
 let matchDuration; // Track total match duration in seconds
 
-// Supabase configuration - Replace with your actual Supabase URL and anon key
-const supabaseUrl = 'https://zjtizhqbbombulphelwb.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdGl6aHFiYm9tYnVscGhlbHdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5MzU5NjIsImV4cCI6MjA1NjUxMTk2Mn0.fSd8LlvSxwPTgcY1p-k6GHk9IUMkYxDDyPzCvEnoU-Y';
-let supabase;
+// Supabase configuration - Removed for security (not in use)
+// If you need Supabase, use environment variables and never commit keys to the repo
+let supabase = null;
 
 // Email collection variables
 let playerEmail = '';
@@ -40,13 +39,9 @@ function setup() {
   // Set the default font for the entire sketch
   textFont('monospace');
   
-  // Initialize Supabase client
-  try {
-    supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-    console.log('Supabase client initialized');
-  } catch (error) {
-    console.error('Error initializing Supabase client:', error);
-  }
+  // Initialize Supabase client (optional) - Removed for security
+  // Supabase is not in use, so client initialization is disabled
+  supabase = null;
   
   // Create email modal when the game loads
   setupEmailModal();
@@ -586,17 +581,24 @@ async function submitMatchResults(winner) {
   console.log('Submitting match data:', matchData);
   
   try {
-    // Submit to Supabase
-    const { data, error } = await supabase
-      .from('match_results')
-      .insert([matchData]);
-    
-    if (error) {
-      console.error('Error submitting match data:', error);
-      submitError = true;
-      errorMessage = "Error: " + (error.message || "Unknown error");
+    // Submit to Supabase (if available)
+    if (supabase) {
+      const { data, error } = await supabase
+        .from('match_results')
+        .insert([matchData]);
+      
+      if (error) {
+        console.error('Error submitting match data:', error);
+        submitError = true;
+        errorMessage = "Error: " + (error.message || "Unknown error");
+      } else {
+        console.log('Match data submitted successfully:', data);
+        emailSubmitted = true;
+        submitSuccess = true;
+      }
     } else {
-      console.log('Match data submitted successfully:', data);
+      // Supabase not available - just mark as submitted
+      console.log('Supabase not available - skipping submission');
       emailSubmitted = true;
       submitSuccess = true;
     }
